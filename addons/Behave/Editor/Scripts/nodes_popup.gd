@@ -33,7 +33,7 @@ func _ready():
 				var node_item = tree.create_item(item)
 				node_item.set_text(0, node_item_name)
 				instance_cache[node_item_name] = n
-		tree.connect("cell_selected", self, "_on_item_selected")
+		tree.connect("item_selected", self, "_on_item_selected")
 		initialized = true
 	
 func _on_item_selected():
