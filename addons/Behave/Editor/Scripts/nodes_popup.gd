@@ -20,6 +20,8 @@ func _ready():
 	if not initialized:
 		var root = tree.create_item()
 		tree.set_hide_root(true)
+		tree.set_select_mode(Tree.SELECT_SINGLE)
+		
 		for type in NODE_TYPES:
 			var item = tree.create_item(root)
 			item.set_text(0, type)
@@ -30,11 +32,12 @@ func _ready():
 				var node_item_name = node_instance.get_name().replace("Node.tscn", "")
 				var node_item = tree.create_item(item)
 				node_item.set_text(0, node_item_name)
-				instance_cache[node_item_name] = node_instance
-		tree.connect("item_selected", self, "_on_item_selected")
+				instance_cache[node_item_name] = n
+		tree.connect("cell_selected", self, "_on_item_selected")
 		initialized = true
 	
 func _on_item_selected():
 	var item = tree.get_selected()
 	var item_name = item.get_text(0)
+	item.deselect(0)
 	emit_signal("tree_node_selected", instance_cache[item_name])
