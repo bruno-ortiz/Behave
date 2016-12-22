@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=1]
+
+[sub_resource type="GDScript" id=1]
+
+script/source = "extends FileDialog\n\n# class member variables go here, for example:\n# var a = 2\n# var b = \"textvar\"\n\nfunc _ready():\n\t# Called every time the node is added to the scene.\n\t# Initialization here\n\tpopup_centered()\n\tpass\n"
+
+[node name="FileDialog" type="FileDialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 905.0
+margin/bottom = 435.0
+popup/exclusive = false
+window/title = "Open a Directory"
+dialog/hide_on_ok = true
+mode = 2
+access = 0
+filters = StringArray(  )
+show_hidden_files = false
+script/script = SubResource( 1 )
+
+
