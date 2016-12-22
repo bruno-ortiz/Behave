@@ -18,6 +18,10 @@ func _ready():
 	
 func  _on_connect_request(from, from_slot, to, to_slot):
 	self.connect_node(from, from_slot, to, to_slot)
+	var cl = get_connection_list()
+	for c in cl:
+		print(c["from"], "   " ,c["to"])
+	
 	
 func _on_connect_to_empty(from, from_slot, release_position):
 	popup.set_pos(get_global_pos() + release_position)
@@ -39,5 +43,5 @@ func _on_node_selected(node):
 	instance.set_offset(last_popup_position)
 	add_child(instance)
 	if last_from != null and last_from_slot != null:
-		self.connect_node(last_from, last_from_slot, instance.get_name(), 0)
+		self._on_connect_request(last_from, last_from_slot, instance.get_name(), 0)
 	

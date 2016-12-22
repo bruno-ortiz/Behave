@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=1]
+[gd_scene load_steps=4 format=1]
 
 [ext_resource path="res://addons/Behave/Scripts/behavior_tree.gd" type="Script" id=1]
 [ext_resource path="res://addons/Behave/behv_root_icon.png" type="Texture" id=2]
@@ -6,16 +6,6 @@
 [sub_resource type="VisualScript" id=1]
 
 data = { "base_type":"Node", "functions":[  ], "signals":[  ], "variables":[  ] }
-
-[sub_resource type="CanvasItemShaderGraph" id=2]
-
-_code = { "fragment":"", "fragment_ofs":0, "light":"", "light_ofs":0, "vertex":"", "vertex_ofs":0 }
-_data = { "shaders":[ [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ], [ 0, 33, Vector2( 720, 80 ), null, null, [  ], 1, 0, Vector2( 240, 60 ), null, null, [  ] ], [ 0, 33, Vector2( 350, 40 ), null, null, [  ], 1, 0, Vector2( 50, 40 ), null, null, [  ] ] ] }
-
-[sub_resource type="CanvasItemMaterial" id=3]
-
-shader/shader = SubResource( 2 )
-shader/shading_mode = 0
 
 [node name="Node" type="Node"]
 
@@ -25,9 +15,5 @@ script/script = SubResource( 1 )
 
 script/script = ExtResource( 1 )
 __meta__ = { "_editor_icon":ExtResource( 2 ) }
-
-[node name="Sprite" type="Sprite" parent="."]
-
-material/material = SubResource( 3 )
 
 
