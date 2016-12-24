@@ -1,0 +1,21 @@
+[gd_scene format=1]
+
+[node name="CreateActionDialog" type="FileDialog"]
+
+focus/ignore_mouse = false
+focus/stop_mouse = true
+size_flags/horizontal = 2
+size_flags/vertical = 2
+margin/left = 0.0
+margin/top = 0.0
+margin/right = 905.0
+margin/bottom = 435.0
+popup/exclusive = false
+window/title = "Open a File"
+dialog/hide_on_ok = true
+mode = 0
+access = 0
+filters = StringArray( "*.gd", "*.vs" )
+show_hidden_files = false
+
+
