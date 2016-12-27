@@ -21,3 +21,23 @@ func load_tree_nodes(path):
 		node_name = dir.get_next()
 	dir.list_dir_end()
 	return tree_nodes
+
+
+func parse_json_from_file(path):
+	var dict = {}
+	var file = File.new()
+	file.open(path, file.READ)
+	var text = file.get_as_text()
+	dict.parse_json(text)
+	file.close()
+	return dict 
+	
+func save_to_file(path, content):
+    var file = File.new()
+    file.open(path, file.WRITE)
+    file.store_string(content)
+    file.close()
+
+func file_exists(path):
+	var dir = Directory.new()
+	return dir.file_exists(path)
