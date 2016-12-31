@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=5 format=1]
 
 [ext_resource path="res://addons/Behave/Editor/Scripts/behavior_tree_editor.gd" type="Script" id=1]
-[ext_resource path="res://addons/Behave/Icons/root.png" type="Texture" id=2]
-[ext_resource path="res://addons/Behave/Editor/Scenes/TreeNodeSelector.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Behave/Editor/Scripts/root_view.gd" type="Script" id=2]
+[ext_resource path="res://addons/Behave/Icons/root.png" type="Texture" id=3]
+[ext_resource path="res://addons/Behave/Editor/Scenes/TreeNodeSelector.tscn" type="PackedScene" id=4]
 
 [node name="BehaviorTree" type="GraphEdit"]
 
@@ -39,6 +40,7 @@ slot/0/left_color = Color( 1, 1, 1, 1 )
 slot/0/right_enabled = true
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
+script/script = ExtResource( 2 )
 __meta__ = { "_edit_group_":true }
 
 [node name="TextureFrame" type="TextureFrame" parent="RootNode"]
@@ -51,10 +53,10 @@ margin/left = 16.0
 margin/top = 24.0
 margin/right = 112.0
 margin/bottom = 61.0
-texture = ExtResource( 2 )
+texture = ExtResource( 3 )
 stretch_mode = 4
 
-[node name="TreeNodeSelector" parent="." instance=ExtResource( 3 )]
+[node name="TreeNodeSelector" parent="." instance=ExtResource( 4 )]
 
 visibility/visible = false
 

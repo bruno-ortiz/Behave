@@ -3,7 +3,7 @@
 [ext_resource path="res://addons/Behave/Editor/Scripts/Action/action_node_editor.gd" type="Script" id=1]
 [ext_resource path="res://addons/Behave/Icons/action.png" type="Texture" id=2]
 
-[node name="ActionNode" type="GraphNode"]
+[node name="Action" type="GraphNode"]
 
 focus/ignore_mouse = false
 focus/stop_mouse = false
@@ -23,6 +23,7 @@ slot/0/right_enabled = false
 slot/0/right_type = 0
 slot/0/right_color = Color( 1, 1, 1, 1 )
 script/script = ExtResource( 1 )
+behavior_type = "Action"
 
 [node name="TextureFrame" type="TextureFrame" parent="."]
 

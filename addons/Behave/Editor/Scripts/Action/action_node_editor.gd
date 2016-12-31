@@ -1,6 +1,6 @@
 tool
 
-extends GraphNode
+extends "res://addons/Behave/Editor/Scripts/behavior_tree_node_editor.gd"
 
 var current_file = ""
 var action_popup = null
