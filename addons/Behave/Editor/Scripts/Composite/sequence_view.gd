@@ -1,11 +1,11 @@
 tool
 
-extends GraphNode
+extends "res://addons/Behave/Editor/Scripts/base_behavior_node_view.gd"
 
-var utils = preload("res://addons/Behave/Editor/Scripts/utils.gd")
 var _node_model_type = preload("res://addons/Behave/Scripts/composite/sequence.gd")
 
-var node_model = null
-
-func _enter_tree():
-	node_model = utils.create_new_behavior_node("Sequence", _node_model_type, null)
+func get_model_type():
+	return _node_model_type
+	
+func get_behavior_name():
+	return "Sequence"

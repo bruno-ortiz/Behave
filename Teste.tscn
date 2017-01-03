@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=1]
+[gd_scene load_steps=6 format=1]
 
 [ext_resource path="res://addons/Behave/Scripts/behavior_tree.gd" type="Script" id=1]
 [ext_resource path="res://addons/Behave/behv_root_icon.png" type="Texture" id=2]
+[ext_resource path="res://addons/Behave/Scripts/composite/selector.gd" type="Script" id=3]
+[ext_resource path="res://addons/Behave/Scripts/composite/sequence.gd" type="Script" id=4]
 
 [sub_resource type="VisualScript" id=1]
 
@@ -15,5 +17,20 @@ script/script = SubResource( 1 )
 
 script/script = ExtResource( 1 )
 __meta__ = { "_editor_icon":ExtResource( 2 ) }
+
+[node name="Selector" type="Node2D" parent="BehaviorTree"]
+
+transform/pos = Vector2( 340, 100 )
+script/script = ExtResource( 3 )
+
+[node name="Sequence" type="Node2D" parent="BehaviorTree/Selector"]
+
+transform/pos = Vector2( 540, 40 )
+script/script = ExtResource( 4 )
+
+[node name="Selector" type="Node2D" parent="BehaviorTree/Selector"]
+
+transform/pos = Vector2( 555, 211 )
+script/script = ExtResource( 3 )
 
 

@@ -16,22 +16,20 @@ var last_from_slot = null
 
 func _ready():
 	root.set_offset(Vector2(100, 100))
-	connect("connection_request", self, "_on_connect_request")
+	connect("connection_request", self, "on_connect_request")
 	connect("connection_to_empty", self, "_on_connect_to_empty")
 	connect("popup_request", self, "_on_popup_request")
 	selector_popup.connect("tree_node_selected", self, "_on_node_selected")
 	
 	
-func  _on_connect_request(from, from_slot, to, to_slot):
+func on_connect_request(from, from_slot, to, to_slot, is_new_node = true):
 	self.connect_node(from, from_slot, to, to_slot)
 	var connecting_node = get_node(to)
 	var node_position = _get_node_position_in_group(connecting_node, from)
 	#	NAO ESQUECER QUE AO DESCONECTAR, PRECISA REMOVER DO GRUPO
 	connecting_node.add_to_group(from)
-	emit_signal("node_connected", get_node(from), connecting_node, node_position)
-#	var cl = get_connection_list()
-#	for c in cl:
-#		print(c["from"], "   " ,c["to"])
+	if is_new_node:
+		emit_signal("node_connected", get_node(from), connecting_node, node_position)
 	
 	
 func _on_connect_to_empty(from, from_slot, release_position):
@@ -56,7 +54,7 @@ func _on_node_selected(node):
 		instance.connect("node_double_clicked", self, "_on_action_double_clicked")
 	add_child(instance)
 	if last_from != null and last_from_slot != null:
-		self._on_connect_request(last_from, last_from_slot, instance.get_name(), 0)
+		self.on_connect_request(last_from, last_from_slot, instance.get_name(), 0)
 	
 	
 func _on_action_double_clicked(action_script):

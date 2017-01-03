@@ -20,7 +20,6 @@ static func load_tree_nodes(path):
 
 
 static func create_new_behavior_node(node_name, node_type, params):
-	var node_type = NODE_TYPES[type]
 	var new_node = node_type.new(params)
 	new_node.set_name(node_name)
 	return new_node

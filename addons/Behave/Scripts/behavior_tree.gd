@@ -2,11 +2,11 @@ tool
 
 extends Node
 
+signal open_script
+
 var editor = preload("res://addons/Behave/Editor/Scenes/BehaviorTreeEditor.tscn")
-
+var editor_instance = null
 var node_id = -1
-var node_cache = {}
-
 var child = null
 var tickable_tasks
 var open_tasks
@@ -19,14 +19,17 @@ var context = {
 }
 
 func _ready():
-	# TODO: validar aonde inicializar o node_id
 	if not get_tree().is_editor_hint():
 		set_process(true)
-	pass
 
 func _enter_tree():
 	node_id = OS.get_ticks_msec()
-	_init_node_cache(get_children())
+	if not editor_instance:
+		editor_instance = editor.instance()
+	editor_instance.connect("node_connected", self, "_on_behavior_node_connected")
+	editor_instance.connect("node_double_clicked", self, "_on_action_double_clicked")
+	editor_instance.connect("enter_tree", self, "_on_editor_enter_tree")
+	editor_instance.get_node("RootNode").node_model = self # MELHORAR ISSO
 
 func _process(delta):
 	if first_tick:
@@ -36,34 +39,30 @@ func _process(delta):
 			t.tick(context)
 	pass
 
-func add_node(parent_id, new_node, position, params = null):
-	var cached_node = _get_node_in_cache(parent_id)
+func add_node(parent, new_node, position, params = null):
 	var root = get_tree().get_edited_scene_root()
-	print(root.get_name())
-#	root.find_node(cached_node.get_name()).add_child(new_node)
-	cached_node.add_child(new_node)
+	parent.add_child(new_node)
 	new_node.set_owner(root)
-	new_node.connect("enter_tree", self, "_on_new_node_enter_tree", [new_node, cached_node, position])
-	new_node.connect("exit_tree", self, "_on_node_exit_tree", [new_node])
-
+	new_node.connect("enter_tree", self, "_on_new_node_enter_tree", [new_node, parent, position])
+#	new_node.connect("exit_tree", self, "_on_node_exit_tree", [new_node])
 	
 func _on_new_node_enter_tree(new_node, parent, position):
-	parent.move_child(new_node, position)
-	node_cache[new_node.node_id] = new_node
+	if position != -1: # MELHORAR ISSO AQUI
+		parent.move_child(new_node, position)
+	
+func _on_action_double_clicked(action_script):
+	emit_signal("open_script", action_script)
 
-func _on_node_exit_tree(node):
-	node_cache.erase(node.node_id)
+func _on_behavior_node_connected(from, to, node_position):
+	self.add_node(from.node_model, to.node_model, node_position)
+	
+func _on_editor_enter_tree():
+	init_editor(self, editor_instance.get_node("RootNode"))
 
-func _init_node_cache(children):
-	node_cache[self.node_id] = self
-	for c in children:
-		node_cache[c.node_id] = c
-		_init_node_cache(c.get_children())
-		
-func _get_node_in_cache(node_id):
-	if node_cache.has(node_id):
-		return node_cache[node_id]
-	node_cache.clear()
-	_init_node_cache(get_children())
-	return node_cache[node_id]
+func init_editor(parent, parent_view):
+	for child in parent.get_children():
+		var node_view  = child.create_view()
+		editor_instance.add_child(node_view)
+		editor_instance.on_connect_request(parent_view.get_name(), 0, node_view.get_name(), 0, false)
+		init_editor(child, node_view)
 	

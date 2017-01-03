@@ -5,7 +5,7 @@ extends PopupPanel
 signal tree_node_selected(instance)
 
 var instance_cache = {}
-var utils = preload("res://addons/Behave/Editor/Scripts/utils.gd").new()
+var utils = preload("res://addons/Behave/Editor/Scripts/utils.gd")
 
 onready var NODE_CATEGORIES = {
 	"Composite" : utils.load_tree_nodes("res://addons/Behave/Editor/Scenes/Composite/"),
