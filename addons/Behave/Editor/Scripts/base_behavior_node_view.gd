@@ -17,13 +17,12 @@ func _enter_tree():
 
 func _on_offset_changed():
 	get_model().set_pos(get_offset())
-
+	
 func get_model_type():
 	pass
 
 func get_behavior_name():
 	pass
-
 
 func set_model(model):
 	node_model = weakref(model)

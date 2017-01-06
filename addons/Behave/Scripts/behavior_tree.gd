@@ -3,6 +3,7 @@ tool
 extends Node
 
 signal open_script
+signal select_node(node)
 
 var editor = preload("res://addons/Behave/Editor/Scenes/BehaviorTreeEditor.tscn")
 var editor_instance = null
@@ -29,6 +30,7 @@ func _enter_tree():
 	editor_instance.connect("node_connected", self, "_on_behavior_node_connected")
 	editor_instance.connect("node_double_clicked", self, "_on_action_double_clicked")
 	editor_instance.connect("enter_tree", self, "_on_editor_enter_tree")
+	editor_instance.connect("node_selected", self, "_on_select_node")
 	editor_instance.get_node("RootNode").node_model = self # MELHORAR ISSO
 
 func _process(delta):
@@ -46,6 +48,10 @@ func add_node(parent, new_node, position, params = null):
 	new_node.connect("enter_tree", self, "_on_new_node_enter_tree", [new_node, parent, position])
 #	new_node.connect("exit_tree", self, "_on_node_exit_tree", [new_node])
 	
+
+func _on_select_node(node):
+	emit_signal("select_node", node)
+
 func _on_new_node_enter_tree(new_node, parent, position):
 	if position != -1: # MELHORAR ISSO AQUI
 		parent.move_child(new_node, position)

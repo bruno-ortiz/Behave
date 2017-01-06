@@ -22,8 +22,14 @@ func handles(object):
 		editor_instance = current_tree.editor_instance
 		if not current_tree.is_connected("open_script", self, "_open_script"):
 			current_tree.connect("open_script", self, "_open_script")
+			current_tree.connect("select_node", self, "_select_node")
 		return true
 	return false
+	
+func _select_node(tree_node):
+	var selection = get_selection()
+	selection.clear()
+	selection.add_node(tree_node.node_model)
 
 func make_visible(visible):
 	if visible:

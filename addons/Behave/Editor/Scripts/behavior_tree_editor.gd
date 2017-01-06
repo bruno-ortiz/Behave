@@ -16,12 +16,19 @@ var last_from_slot = null
 
 func _ready():
 	root.set_offset(Vector2(100, 100))
+	set_right_disconnects(true)
 	connect("connection_request", self, "on_connect_request")
+	connect("disconnection_request", self, "on_disconnect_request")
 	connect("connection_to_empty", self, "_on_connect_to_empty")
 	connect("popup_request", self, "_on_popup_request")
 	selector_popup.connect("tree_node_selected", self, "_on_node_selected")
 	
-	
+func on_disconnect_request(from, from_slot, to, to_slot):
+	self.disconnect_node(from, from_slot, to, to_slot)
+	var disconnecting_node = get_node(to)
+	var model = disconnecting_node.node_model
+	model.get_parent().remove_child(model)
+
 func on_connect_request(from, from_slot, to, to_slot, is_new_node = true):
 	self.connect_node(from, from_slot, to, to_slot)
 	var connecting_node = get_node(to)
@@ -31,7 +38,7 @@ func on_connect_request(from, from_slot, to, to_slot, is_new_node = true):
 	if is_new_node:
 		emit_signal("node_connected", get_node(from), connecting_node, node_position)
 	
-	
+
 func _on_connect_to_empty(from, from_slot, release_position):
 	selector_popup.set_pos(get_global_pos() + release_position)
 	last_popup_position = release_position
