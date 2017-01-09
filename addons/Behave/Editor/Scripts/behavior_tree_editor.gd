@@ -4,6 +4,7 @@ extends GraphEdit
 
 signal node_double_clicked(action_script)
 signal node_connected(from, to, to_position)
+signal node_position_changed(node, position)
 
 var ActionNode = preload("res://addons/Behave/Editor/Scripts/Action/action_node_editor.gd")
 
@@ -13,6 +14,7 @@ onready var root = get_node("RootNode")
 var last_popup_position = Vector2()
 var last_from = null
 var last_from_slot = null
+var initialized = false
 
 func _ready():
 	root.set_offset(Vector2(100, 100))
@@ -35,6 +37,7 @@ func on_connect_request(from, from_slot, to, to_slot, is_new_node = true):
 	var node_position = _get_node_position_in_group(connecting_node, from)
 	#	NAO ESQUECER QUE AO DESCONECTAR, PRECISA REMOVER DO GRUPO
 	connecting_node.add_to_group(from)
+	connecting_node.connect("offset_changed", self, "_on_graph_node_position_changed", [connecting_node, from])
 	if is_new_node:
 		emit_signal("node_connected", get_node(from), connecting_node, node_position)
 	
@@ -56,7 +59,7 @@ func _on_popup_request(position):
 func _on_node_selected(node):
 	var instance = node.instance()
 	selector_popup.hide()
-	instance.set_offset(last_popup_position)
+	instance.set_offset(last_popup_position + get_scroll_ofs()) 
 	if instance extends ActionNode:
 		instance.connect("node_double_clicked", self, "_on_action_double_clicked")
 	add_child(instance)
@@ -72,6 +75,10 @@ func _get_node_position_in_group(node, group):
 	var position = 0
 	var offset = node.get_offset()
 	for n in nodes:
-		if n.get_offset().y <= offset.y:
+		if n.get_offset().y < offset.y:
 			position = position + 1
 	return position
+
+func _on_graph_node_position_changed(node, group):
+	var node_position = _get_node_position_in_group(node, group)
+	emit_signal("node_position_changed", node.node_model, node_position)
