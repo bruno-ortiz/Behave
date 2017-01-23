@@ -1,6 +1,7 @@
 
-const SUCCESS = 0
-const FAILURE = 1
-const RUNNING = 2
+const NOT_STARTED = 0
+const SUCCESS = 1
+const FAILURE = 2
+const RUNNING = 3
 
 

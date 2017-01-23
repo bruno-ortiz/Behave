@@ -62,8 +62,14 @@ func _on_action_double_clicked(action_script):
 	emit_signal("open_script", action_script)
 
 func _on_behavior_node_connected(from, to, node_position):
+	if to.node_model != null:
+		self.add_node(from.node_model, to.node_model, node_position)
+	else:
+		to.connect("lazy_model_initialized", self, "_on_lazy_model_initialized", [from, to, node_position])
+
+func _on_lazy_model_initialized(from, to, node_position):
 	self.add_node(from.node_model, to.node_model, node_position)
-	
+
 func _on_behavior_node_pos_changed(node, position):
 	if node.position != position:
 		node.get_parent().move_child(node, position)

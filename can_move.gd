@@ -9,6 +9,9 @@ func on_enter(context):
 
 func tick(context):
 	pass
-
+	
 func on_exit(context):
 	pass
+	
+func get_behavior_type():
+	return "Action"

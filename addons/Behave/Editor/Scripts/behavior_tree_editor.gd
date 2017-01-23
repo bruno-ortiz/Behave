@@ -24,7 +24,7 @@ func _ready():
 	connect("connection_to_empty", self, "_on_connect_to_empty")
 	connect("popup_request", self, "_on_popup_request")
 	selector_popup.connect("tree_node_selected", self, "_on_node_selected")
-	
+
 func on_disconnect_request(from, from_slot, to, to_slot):
 	self.disconnect_node(from, from_slot, to, to_slot)
 	var disconnecting_node = get_node(to)
@@ -40,7 +40,7 @@ func on_connect_request(from, from_slot, to, to_slot, is_new_node = true):
 	connecting_node.connect("offset_changed", self, "_on_graph_node_position_changed", [connecting_node, from])
 	if is_new_node:
 		emit_signal("node_connected", get_node(from), connecting_node, node_position)
-	
+
 
 func _on_connect_to_empty(from, from_slot, release_position):
 	selector_popup.set_pos(get_global_pos() + release_position)
@@ -55,21 +55,21 @@ func _on_popup_request(position):
 	last_from = null
 	last_from_slot = null
 	selector_popup.popup()
-	
+
 func _on_node_selected(node):
 	var instance = node.instance()
 	selector_popup.hide()
-	instance.set_offset(last_popup_position + get_scroll_ofs()) 
+	instance.set_offset(last_popup_position + get_scroll_ofs())
 	if instance extends ActionNode:
 		instance.connect("node_double_clicked", self, "_on_action_double_clicked")
 	add_child(instance)
 	if last_from != null and last_from_slot != null:
 		self.on_connect_request(last_from, last_from_slot, instance.get_name(), 0)
-	
-	
+
+
 func _on_action_double_clicked(action_script):
 	emit_signal("node_double_clicked", action_script)
-	
+
 func _get_node_position_in_group(node, group):
 	var nodes = get_tree().get_nodes_in_group(group)
 	var position = 0

@@ -2,7 +2,7 @@ extends Node2D
 var Status = preload("res://addons/Behave/Scripts/utils/status.gd")
 
 var position = 0
-var status = Status.RUNNING
+var status = Status.NOT_STARTED
 var node_id = -1
 
 func _enter_tree():

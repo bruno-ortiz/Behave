@@ -1,12 +1,14 @@
 tool
 
-extends GraphNode
+extends "res://addons/Behave/Editor/Scripts/base_behavior_node_view.gd"
 
 var current_file = ""
+var current_file_name = ""
 var action_popup = null
 onready var creation_popup = preload("res://addons/Behave/Editor/Scenes/CreateActionDialog.tscn")
 
 signal node_double_clicked(action_script)
+signal lazy_model_initialized
 
 func _ready():
 	print("Action Node ready!")
@@ -30,7 +32,20 @@ func _on_choose_action_script():
 	if selected_file != "":
 		set_title(selected_file)
 		current_file = selected_path
+		current_file_name = selected_file
 		var dir = Directory.new()
 		dir.copy("res://addons/Behave/Editor/Scripts/templates/action_template.gd", selected_path)
+		._init_model()
+		emit_signal("lazy_model_initialized")
 	else:
 		queue_free()
+		
+func _init_model():
+	pass # override to do nothing, model will be initilized after the file is choosed
+	
+	
+func get_model_type():
+	return load(current_file)
+
+func get_behavior_name():
+	return current_file_name.replace(".gd", "").capitalize()

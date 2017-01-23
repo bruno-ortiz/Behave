@@ -7,6 +7,9 @@ var utils = preload("res://addons/Behave/Editor/Scripts/utils.gd")
 var node_model = null setget set_model,get_model
 
 func _enter_tree():
+	_init_model()
+	
+func _init_model():
 	var model = get_model()
 	if model == null:
 		model = utils.create_new_behavior_node(get_behavior_name(), get_model_type(), null)
