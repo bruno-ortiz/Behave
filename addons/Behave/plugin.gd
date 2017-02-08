@@ -2,45 +2,48 @@ tool
 
 extends EditorPlugin
 
-var BehaviorTree = preload("res://addons/Behave/Scripts/behavior_tree.gd")
-var current_tree = null
-var bottom_button = null
-var editor_instance = null
-
+var ActionPopup = preload("res://addons/Behave/Scenes/ActionPopup.tscn")
+var ActionInitializer = preload("res://addons/Behave/Scripts/action/action_initializer.gd")
+var action_stub = null
 
 func _enter_tree():
-	add_custom_type("BehaviorTree", "Node", preload("res://addons/Behave/Scripts/behavior_tree.gd"),  preload("res://addons/Behave/behv_root_icon.png"))
+	add_custom_type("BehaviorTree", "Node", preload("res://addons/Behave/Scripts/behavior_tree.gd"),  preload("res://addons/Behave/Icons/behv_root_icon.png"))
+	add_custom_type("Sequence", "Node", preload("res://addons/Behave/Scripts/composite/sequence.gd"),  preload("res://addons/Behave/Icons/behv_seq_icon.png"))
+	add_custom_type("Selector", "Node", preload("res://addons/Behave/Scripts/composite/selector.gd"),  preload("res://addons/Behave/Icons/behv_sel_icon.png"))
+	add_custom_type("ActionTask", "Node", preload("res://addons/Behave/Scripts/action/action_initializer.gd"),  preload("res://addons/Behave/Icons/behv_action_icon.png"))
+	
 
 func _exit_tree():
-	remove_control_from_bottom_panel(editor_instance)
 	remove_custom_type("BehaviorTree")
-	queue_free()
+	remove_custom_type("Sequence")
+	remove_custom_type("Selector")
+	remove_custom_type("ActionTask")
+
 
 func handles(object):
-	if object extends BehaviorTree:
-		current_tree = object
-		editor_instance = current_tree.editor_instance
-		if not current_tree.is_connected("open_script", self, "_open_script"):
-			current_tree.connect("open_script", self, "_open_script")
-			current_tree.connect("select_node", self, "_select_node")
-		return true
-	return false
-	
-func _select_node(tree_node):
-	var selection = get_selection()
-	selection.clear()
-	selection.add_node(tree_node.node_model)
-
-func make_visible(visible):
-	if visible:
-		if not bottom_button:
-			bottom_button = add_control_to_bottom_panel(editor_instance, "Behave")
-		bottom_button.show()
+	var action_popup
+	if object extends ActionInitializer:
+		action_stub = object
+		action_popup = ActionPopup.instance()
+		action_popup.connect("action_selected", self, "_on_action_selected")
+		get_base_control().add_child(action_popup)
+		action_popup.popup_centered()
 	else:
-		bottom_button.set_pressed(false)
-		bottom_button.hide()
-		editor_instance.hide()
+		action_stub = null
+		if action_popup:
+			action_popup.queue_free()
+			
 
-func _open_script(action_script):
-	edit_resource(load(action_script))
+func _on_action_selected(action):
+	print("new node ", action)
+	var action_node = load(action).new()
+	action_node.set_name(_get_action_name(action))
+	action_stub.get_parent().add_child(action_node)
+	action_node.set_owner(get_tree().get_edited_scene_root())
+	action_stub.queue_free()
 	
+func _get_action_name(action):
+	var expr = RegEx.new()
+	expr.compile("res:\/\/.*\/(\\w+).gd")
+	expr.find(action)
+	return expr.get_capture(1).capitalize()

@@ -2,18 +2,13 @@ tool
 
 extends "res://addons/Behave/Scripts/composite/composite.gd"
 
-var editor_view = preload("res://addons/Behave/Editor/Scenes/Composite/SelectorNode.tscn")
 var current_child = 0
 
-func _init(params=null):
-	pass
-
 func tick(context):
-	pass
-
-
-func create_view():
-	var view = editor_view.instance()
-	view.set_offset(get_pos())
-	view.node_model = self
-	return view
+	status = active_child.status
+	if status == Status.FAILURE or status == Status.TERMINATED:
+		current_child_idx += 1
+		if current_child_idx < children.size():
+			active_child = children[current_child_idx]
+			active_child.on_enter(context)
+	return status
