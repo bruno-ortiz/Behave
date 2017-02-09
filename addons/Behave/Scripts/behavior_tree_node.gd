@@ -12,4 +12,4 @@ func tick(context):
 
 func on_exit(context):
 	status = Status.TERMINATED
-	context.tree.tickable_tasks.remove(self)
+	context.tree.tickable_tasks.erase(self)
