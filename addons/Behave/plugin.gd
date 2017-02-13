@@ -9,6 +9,7 @@ var action_stub = null
 func _enter_tree():
 	add_custom_type("BehaviorTree", "Node", preload("res://addons/Behave/Scripts/behavior_tree.gd"),  preload("res://addons/Behave/Icons/behv_root_icon.png"))
 	add_custom_type("Sequence", "Node", preload("res://addons/Behave/Scripts/composite/sequence.gd"),  preload("res://addons/Behave/Icons/behv_seq_icon.png"))
+	add_custom_type("Parallel", "Node", preload("res://addons/Behave/Scripts/composite/parallel.gd"), null)
 	add_custom_type("Selector", "Node", preload("res://addons/Behave/Scripts/composite/selector.gd"),  preload("res://addons/Behave/Icons/behv_sel_icon.png"))
 	add_custom_type("ActionTask", "Node", preload("res://addons/Behave/Scripts/action/action_initializer.gd"),  preload("res://addons/Behave/Icons/behv_action_icon.png"))
 	

@@ -1,12 +1,11 @@
-[gd_scene load_steps=9 format=1]
+[gd_scene load_steps=8 format=1]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://addons/Behave/Scripts/behavior_tree.gd" type="Script" id=2]
 [ext_resource path="res://addons/Behave/Icons/behv_root_icon.png" type="Texture" id=3]
-[ext_resource path="res://addons/Behave/Scripts/composite/selector.gd" type="Script" id=4]
-[ext_resource path="res://addons/Behave/Icons/behv_sel_icon.png" type="Texture" id=5]
-[ext_resource path="res://BehaveScripts/can_move.gd" type="Script" id=6]
-[ext_resource path="res://BehaveScripts/move_foward.gd" type="Script" id=7]
+[ext_resource path="res://addons/Behave/Scripts/composite/parallel.gd" type="Script" id=4]
+[ext_resource path="res://BehaveScripts/move_foward.gd" type="Script" id=5]
+[ext_resource path="res://BehaveScripts/move_down.gd" type="Script" id=6]
 
 [sub_resource type="GDScript" id=1]
 
@@ -29,17 +28,16 @@ texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
 __meta__ = { "_editor_icon":ExtResource( 3 ) }
 
-[node name="Selector" type="Node" parent="BehaviorTree"]
+[node name="Parallel" type="Node" parent="BehaviorTree"]
 
 script/script = ExtResource( 4 )
-__meta__ = { "_editor_icon":ExtResource( 5 ) }
 
-[node name="Can Move" type="Node" parent="BehaviorTree/Selector"]
+[node name="Move Foward" type="Node" parent="BehaviorTree/Parallel"]
+
+script/script = ExtResource( 5 )
+
+[node name="Move Down" type="Node" parent="BehaviorTree/Parallel"]
 
 script/script = ExtResource( 6 )
-
-[node name="Move Foward" type="Node" parent="BehaviorTree/Selector"]
-
-script/script = ExtResource( 7 )
 
 

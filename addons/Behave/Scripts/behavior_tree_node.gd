@@ -2,14 +2,17 @@ extends Node
 
 var Status = preload("res://addons/Behave/Scripts/utils/status.gd")
 var status = Status.NOT_STARTED
+var terminated = false
+
 
 func on_enter(context):
 	status = Status.RUNNING
-	context.tree.tickable_tasks.append(self)
+	context.tree.insertion_requests.append(self)
 
 func tick(context):
 	pass
 
 func on_exit(context):
 	status = Status.TERMINATED
-	context.tree.tickable_tasks.erase(self)
+	context.tree.removal_requests.append(self)
+	terminated = true

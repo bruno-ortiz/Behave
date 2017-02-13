@@ -3,6 +3,7 @@ extends "res://addons/Behave/Scripts/composite/composite.gd"
 
 
 func on_enter(context):
+	.on_enter(context)
 	for child in children:
 		child.on_enter(context)
 	
@@ -13,7 +14,7 @@ func tick(context):
 		if current_status == Status.RUNNING:
 			one_running = true
 		elif current_status == Status.FAILURE or current_status == Status.TERMINATED:
-			_terminate_all()
+			_terminate_all(context)
 			return Status.FAILURE
 	if not one_running:
 		return Status.SUCCESS

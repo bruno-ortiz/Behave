@@ -9,6 +9,9 @@ var child = null
 var tickable_tasks = []
 var open_tasks = []
 
+var insertion_requests = []
+var removal_requests = []
+
 var first_tick = true
 
 var context = {
@@ -30,9 +33,19 @@ func _process(delta):
 		first_tick = false
 	else:
 		for t in tickable_tasks:
-			var new_status = t.tick(context)
-			if new_status != Status.RUNNING:
-				t.status = new_status
-				tickable_tasks.erase(t)
-				open_tasks.erase(t)
-	pass
+			if not t.terminated:
+				var new_status = t.tick(context)
+				if new_status != Status.RUNNING:
+					t.status = new_status
+					removal_requests.append(t)
+	_process_insertions_and_removals()
+		
+
+func _process_insertions_and_removals():
+	for t in insertion_requests:
+		self.tickable_tasks.append(t)
+	for t in removal_requests:
+		self.tickable_tasks.erase(t)
+	
+	self.insertion_requests.clear()
+	self.removal_requests.clear()
