@@ -4,6 +4,7 @@ var current_child_idx = -1
 var active_child = null
 
 func on_enter(context):
+	.on_enter(context)
 	current_child_idx = 0
 	active_child = children[current_child_idx]
 	active_child.on_enter(context)

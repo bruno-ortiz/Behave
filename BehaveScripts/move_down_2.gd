@@ -9,7 +9,7 @@ func tick(context):
 	target.move(Vector2(0, 50) * context.delta)
 	if target.get_pos().y > 600:
 		return Status.FAILURE
-	return Status.SUCCESS
+	return Status.RUNNING
 
 func on_exit(context):
 	.on_exit(context)

@@ -28,6 +28,7 @@ func start_behave(kwargs = null):
 func _process(delta):
 	context["delta"] = delta
 	context["target"] = get_parent()
+	_process_insertions_and_removals()
 	if first_tick:
 		child.on_enter(context)
 		first_tick = false
@@ -42,10 +43,10 @@ func _process(delta):
 		
 
 func _process_insertions_and_removals():
-	for t in insertion_requests:
-		self.tickable_tasks.append(t)
 	for t in removal_requests:
 		self.tickable_tasks.erase(t)
+	for t in insertion_requests:
+		self.tickable_tasks.append(t)
 	
 	self.insertion_requests.clear()
 	self.removal_requests.clear()
