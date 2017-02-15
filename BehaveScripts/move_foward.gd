@@ -2,7 +2,7 @@ extends "res://addons/Behave/Scripts/action/action_task.gd"
 
 var ticked = 0
 
-func tick(context):
+func do_tick(context):
 	ticked = ticked +1
 	print(ticked)
 	var target = context.target

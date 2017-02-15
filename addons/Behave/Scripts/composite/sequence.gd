@@ -9,7 +9,7 @@ func on_enter(context):
 	active_child = children[current_child_idx]
 	active_child.on_enter(context)
 
-func tick(context):
+func do_tick(context):
 	var current_status = active_child.tick(context)
 	if current_status == Status.FAILURE or current_status == Status.TERMINATED:
 		return Status.FAILURE

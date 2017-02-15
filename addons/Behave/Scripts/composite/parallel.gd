@@ -7,7 +7,7 @@ func on_enter(context):
 	for child in children:
 		child.on_enter(context)
 	
-func tick(context):
+func do_tick(context):
 	var one_running = false
 	for child in children:
 		var current_status = child.tick(context)

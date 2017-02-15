@@ -3,12 +3,12 @@
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://addons/Behave/Scripts/behavior_tree.gd" type="Script" id=2]
 [ext_resource path="res://addons/Behave/Icons/behv_root_icon.png" type="Texture" id=3]
-[ext_resource path="res://addons/Behave/Scripts/decorator/until_failure.gd" type="Script" id=4]
-[ext_resource path="res://addons/Behave/Scripts/composite/parallel.gd" type="Script" id=5]
-[ext_resource path="res://BehaveScripts/move_foward.gd" type="Script" id=6]
-[ext_resource path="res://BehaveScripts/move_down.gd" type="Script" id=7]
-[ext_resource path="res://BehaveScripts/move_foward_2.gd" type="Script" id=8]
-[ext_resource path="res://BehaveScripts/move_down_2.gd" type="Script" id=9]
+[ext_resource path="res://addons/Behave/Scripts/composite/parallel.gd" type="Script" id=4]
+[ext_resource path="res://BehaveScripts/move_foward_2.gd" type="Script" id=5]
+[ext_resource path="res://BehaveScripts/move_down_2.gd" type="Script" id=6]
+[ext_resource path="res://addons/Behave/Scripts/decorator/until_failure.gd" type="Script" id=7]
+[ext_resource path="res://BehaveScripts/move_foward.gd" type="Script" id=8]
+[ext_resource path="res://BehaveScripts/move_down.gd" type="Script" id=9]
 
 [sub_resource type="GDScript" id=1]
 
@@ -31,31 +31,31 @@ texture = ExtResource( 1 )
 script/script = ExtResource( 2 )
 __meta__ = { "_editor_icon":ExtResource( 3 ) }
 
-[node name="UntilFailure" type="Node" parent="BehaviorTree"]
+[node name="Parallel1" type="Node" parent="BehaviorTree"]
 
 script/script = ExtResource( 4 )
 
-[node name="Parallel" type="Node" parent="BehaviorTree/UntilFailure"]
+[node name="Move Foward 2" type="Node" parent="BehaviorTree/Parallel1"]
 
 script/script = ExtResource( 5 )
 
-[node name="Move Foward" type="Node" parent="BehaviorTree/UntilFailure/Parallel"]
+[node name="Move Down 2" type="Node" parent="BehaviorTree/Parallel1"]
 
 script/script = ExtResource( 6 )
 
-[node name="Move Down" type="Node" parent="BehaviorTree/UntilFailure/Parallel"]
+[node name="UntilFailure" type="Node" parent="BehaviorTree"]
 
 script/script = ExtResource( 7 )
 
-[node name="Parallel1" type="Node" parent="BehaviorTree"]
+[node name="Parallel" type="Node" parent="BehaviorTree/UntilFailure"]
 
-script/script = ExtResource( 5 )
+script/script = ExtResource( 4 )
 
-[node name="Move Foward 2" type="Node" parent="BehaviorTree/Parallel1"]
+[node name="Move Foward" type="Node" parent="BehaviorTree/UntilFailure/Parallel"]
 
 script/script = ExtResource( 8 )
 
-[node name="Move Down 2" type="Node" parent="BehaviorTree/Parallel1"]
+[node name="Move Down" type="Node" parent="BehaviorTree/UntilFailure/Parallel"]
 
 script/script = ExtResource( 9 )
 

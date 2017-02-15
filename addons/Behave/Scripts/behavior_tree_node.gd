@@ -8,9 +8,14 @@ func on_enter(context):
 	status = Status.RUNNING
 
 func tick(context):
-	pass
+	if not terminated:
+		var new_status = do_tick(context)
+		if new_status != Status.RUNNING:
+			status = new_status
+	else:
+		return Status.TERMINATED
+	return status
 
 func on_exit(context):
 	status = Status.TERMINATED
-	context.tree.removal_requests.append(self)
 	terminated = true
