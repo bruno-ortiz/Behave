@@ -7,7 +7,7 @@ func on_enter(context):
 func tick(context):
 	var target = context.target
 	target.move(Vector2(0, 50) * context.delta)
-	if target.get_pos().y > 600:
+	if target.get_pos().y > 200:
 		return Status.FAILURE
 	return Status.RUNNING
 

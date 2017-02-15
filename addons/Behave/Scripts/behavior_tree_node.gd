@@ -6,7 +6,6 @@ var terminated = false
 
 func on_enter(context):
 	status = Status.RUNNING
-	context.tree.insertion_requests.append(self)
 
 func tick(context):
 	pass

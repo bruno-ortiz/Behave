@@ -10,3 +10,4 @@ func on_enter(context):
 	child = get_child(0)
 	if child:
 		child.on_enter(context)
+	context.tree.insertion_requests.append(self)

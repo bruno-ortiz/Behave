@@ -10,7 +10,7 @@ func on_enter(context):
 func tick(context):
 	var one_running = false
 	for child in children:
-		var current_status = child.status
+		var current_status = child.tick(context)
 		if current_status == Status.RUNNING:
 			one_running = true
 		elif current_status == Status.FAILURE or current_status == Status.TERMINATED:
