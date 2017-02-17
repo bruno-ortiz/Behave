@@ -13,6 +13,7 @@ func tick(context):
 		if new_status != Status.RUNNING:
 			status = new_status
 	else:
+		status = Status.TERMINATED
 		return Status.TERMINATED
 	return status
 
