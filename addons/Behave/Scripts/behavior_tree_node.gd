@@ -6,6 +6,7 @@ var terminated = false
 
 func on_enter(context):
 	status = Status.RUNNING
+	terminated = false
 
 func tick(context):
 	if not terminated:
@@ -14,7 +15,6 @@ func tick(context):
 			status = new_status
 	else:
 		status = Status.TERMINATED
-		return Status.TERMINATED
 	return status
 
 func on_exit(context):

@@ -7,8 +7,9 @@ var Status = preload("res://addons/Behave/Scripts/utils/status.gd")
 
 var child = null
 
-
 var first_tick = true
+
+var interruptors = {}
 
 var context = {
 	tree = self
@@ -31,3 +32,16 @@ func _process(delta):
 		var tree_status = child.tick(context)
 		if tree_status != Status.RUNNING:
 			set_process(false)
+
+
+
+func register_interruptor(interruptor_id, interruptor):
+	interruptors[interruptor_id] = interruptor
+
+func unregister_interruptor(interruptor_id):
+	interruptors.erase(interruptor_id)
+	
+func get_interruptor(interruptor_id):
+	if interruptors.has(interruptor_id):
+		return interruptors[interruptor_id]
+	return null
